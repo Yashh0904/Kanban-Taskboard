@@ -8,6 +8,7 @@ function App() {
   });
 
   const [addActive, setAddActive] = useState(false);
+  const [draggedId, setDraggedId] = useState("")
 
   function addTask(task) {
     setTasks([...tasks, task]);
@@ -19,7 +20,7 @@ function App() {
     );
   }
 
-  function editTask(taskId, taskName, taskDesc) {
+  function editTask(taskId, taskName, taskDesc) {    
     setTasks(tasks.map(task => {
       if(task.id === taskId){
         return {
@@ -42,6 +43,22 @@ function App() {
     }))
   }
 
+  function handleDrag(taskId) {
+        setDraggedId(taskId);
+    }
+
+  function handleDrop(category) {
+    setTasks(tasks.map(task => {
+      if(task.id === draggedId) {
+        return {
+          ...task,
+          category: category
+        }
+      }
+      return task;
+    }))
+  }
+
   const todoList = tasks.filter(task => task.category === 'todo');
   const progressList = tasks.filter(task => task.category === 'progress');
   const reviewList = tasks.filter(task => task.category === 'review');
@@ -53,13 +70,13 @@ function App() {
 
   return (
     <div className='min-h-screen grid grid-cols-4 gap-2 p-4'>
-      <TaskList category="todo" list={todoList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} />
+      <TaskList category="todo" list={todoList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} handleDrag={handleDrag} handleDrop={handleDrop} />
 
-      <TaskList category="progress" list={progressList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} />
+      <TaskList category="progress" list={progressList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} handleDrag={handleDrag} handleDrop={handleDrop} />
 
-      <TaskList category="review" list={reviewList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} />
+      <TaskList category="review" list={reviewList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} handleDrag={handleDrag} handleDrop={handleDrop} />
 
-      <TaskList category="finished" list={finishedList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} />
+      <TaskList category="finished" list={finishedList} addTask={addTask} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} addActive={addActive} setAddActive={setAddActive} handleDrag={handleDrag} handleDrop={handleDrop} />
     </div>
   )
 }

@@ -2,17 +2,25 @@ import { useState } from "react";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
 
-const TaskList = ({category, list, addTask, deleteTask, editTask, makeEditable, addActive, setAddActive}) => {
+const TaskList = ({category, list, addTask, deleteTask, editTask, makeEditable, addActive, setAddActive, handleDrag, handleDrop}) => {
     const [addForm, setAddForm] = useState(false);
 
     return(
-        <div className="flex flex-col gap-4">
+        <div 
+        onDragOver={(e) => {
+            e.preventDefault();
+        }}
+        onDrop={(e) => {
+            e.preventDefault();
+            handleDrop(category);
+        }}
+        className="flex flex-col gap-4">
             <h1 className="mx-auto text-3xl font-semibold underline">
             {category}
             </h1>
             <div className="flex flex-col gap-4">
             {list.map(task => (
-                <Task key={task.id} task={task} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} />
+                <Task key={task.id} task={task} deleteTask={deleteTask} editTask={editTask} makeEditable={makeEditable} handleDrag={handleDrag} />
             ))}
             </div>
             {addForm ? <TaskForm addTask={addTask} category={category} setAddActive={setAddActive} setAddForm={setAddForm} /> : ""}

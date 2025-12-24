@@ -1,12 +1,13 @@
 import { SquarePen, Trash, CheckCheck } from "lucide-react"
 import { useState } from "react"
 
-function Task({task, deleteTask, editTask, makeEditable}) {
+function Task({task, deleteTask, editTask, makeEditable, handleDrag}) {
   const [taskName, setTaskName] = useState(task.name);
   const [taskDesc, setTaskDesc] = useState(task.description);
 
   return (
-    <div>
+    <div draggable 
+    onDragStart={() => handleDrag(task.id)}>
     {
         (task.editable) ?
         <div className="flex flex-col gap-4 w-auto rounded-xl bg-neutral-200 mx-2 px-8 py-4">

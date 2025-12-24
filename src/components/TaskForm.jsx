@@ -23,7 +23,7 @@ function TaskForm({addTask, category, setAddActive, setAddForm}) {
             <button type="button"
             onClick={() => {
               addTask({
-              id: crypto.randomUUID(),
+              id: crypto.randomUUID().slice(0, 8),
               name: nameInput,
               description: descInput,
               category: category,
